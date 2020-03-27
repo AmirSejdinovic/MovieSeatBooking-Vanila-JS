@@ -6,13 +6,31 @@ const total = document.getElementById("total");
 const movieSelect = document.getElementById("movie");
 //the + sign in fornt of the variable will convert string into number
 let ticketPrice = +movieSelect.value;
-
+//Creating setMovieData, saving the movie index and value
+function setMovieData(movieIndex, moviePrice) {
+  localStorage.setItem("selectedMovieIndex", movieIndex);
+  localStorage.setItem("selectedMoviePrice", moviePrice);
+}
 //Creating the function updateSelectedCount
 //update total and count
 function updateSelectedCount() {
   //Grabing all selected seats with queryySelectorAll which will return the nodelist
   const selectedSeats = document.querySelectorAll(".row .seat.selected");
   //With this method we'll count the nubmer of elements in the array or nodelist and it will be number of selected seats
+
+  //Copy selected seats into array
+  //Map through array
+  //return new array of index
+  //the ... is a spred operator and its copy the values  arry. This will convert the node list into array
+  //After that i mapp the arry it is a loop metod it is similar to foreach only diferenci is that its return the array
+  const seatsIndex = [...selectedSeats].map(function(seat) {
+    return [...seats].indexOf(seat);
+  });
+  console.log(seatsIndex);
+  //Saving in the LocalStorage
+  //Calling the localstorage metod setIteme and passing the key and value. Because the localstorage works on strings I use JSON.stringify method to convert array into string
+  localStorage.setItem("selectedSeats", JSON.stringify(seatsIndex));
+
   const selectedSeatsCount = selectedSeats.length;
 
   //Update the text in the span tag where it will display the nubmer of seats
@@ -24,6 +42,8 @@ function updateSelectedCount() {
 movieSelect.addEventListener("change", e => {
   //Grabing te ticket value from active element
   ticketPrice = +e.target.value;
+  //caling the function
+  setMovieData(e.target.selectedIndex, e.target.value);
   updateSelectedCount();
 });
 
